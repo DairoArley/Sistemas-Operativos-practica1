@@ -1,0 +1,30 @@
+if(strcmp(argv[1], "-l") == 0 ){
+          char pidP[MAXIMA_LONGITUD_CADENA];
+          struct __node_t *proceso;
+          struct __list_t *lista;
+          node_t *tmp;
+          list_init(lista);
+          for (int i = 2; i < argc; i++ ){
+            strcpy(pidP, "/proc/");
+            strcat(pidP, argv[i]); // es numerico?
+            strcat(pidP, "/status");
+            
+            tmp=(node_t*)malloc(sizeof(node_t));
+
+            FILE* fichero = fopen(pidP, "r");
+            if (!fichero) {
+              printf("\nError de apertura del archivo %c \n\n", pidP);
+            }else{
+                char state, name[32];
+                int pid;
+                fscanf(fichero, "%s %s %d",&state, name, pid);
+                printf("Nombre del proceso: %s \nEstado: %c \nPID: %d", name, state);
+                fclose(fichero);
+            }
+            //printf("el proceso %s cantidad menos 2 %d\n", pid, argc-2);
+            strcpy(pidP, "");//limpiar
+          }
+          
+        }else if(strcmp(argv[1], "-r") == 0 ){
+          printf("te reconoci -r");
+        }else printf("\nflags no permitido\n");
